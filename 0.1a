@@ -1,0 +1,256 @@
+set #HandleWindow findwindow (EVE - Mr LevenT) // присваиваем переменной #HandleWindow хендл окна EVE
+set workwindow #HandleWindow       // активируем окно с хендлом из переменной #HandleWindow
+showwindow                         // вызываем рабочее окно на передний план
+
+
+
+
+
+
+:BEGIN
+set #undocX 1307                   // координаты кнопки выхода из дока X
+set #undocY 159                    // координаты кнопки выхода из дока
+set #nomer 1                       // номер пояса астеройдов из списка
+set #Button1X 335                   // запуск дронов
+set #Button1Y 120
+set #Button2X 1250                // вкладка пояса
+set #Button2Y 338
+set #Button3X 1125                   // 1ый пояс астеройдов
+set #Button3Y 379
+set #Button4X 1161                    // кнопка дроны в отсеке
+set #Button4Y 178
+set #Button5X 1194                   // вкладка астеройды
+set #Button5Y 335
+set #Button6X 1125                 //первый астеройд в списке
+set #Button6Y 379
+set #Button7X 20                     // кнопка трюма
+set #Button7Y 178
+set #Button8X 351                 // трюм для руд
+set #Button8Y 174
+set #Button9X 22                  // кнопка координат
+set #Button9Y 222
+set #Button10X 380                 // точка базы
+set #Button10Y 344
+set #Button11X 1088               // закрытие окна координат
+set #Button11Y 160
+set #Button12X 488                  // первая руда в списке
+set #Button12Y 206
+set #Button13X 356                // склад
+set #Button13Y 224
+set #Button14X 865                 // закрытие складов
+set #Button14Y 91
+set #Button15X 1214                 // захват цели
+set #Button15Y 94
+set #Button16X 804                 // майнер 1
+set #Button16Y 623
+set #Button17X 858                  // майнер 2
+set #Button17Y 637
+//set #Button14X 865                 // закрытие складов
+//set #Button14Y 91
+//set #Button14X 865                 // закрытие складов
+//set #Button14Y 91
+set #color1 0
+set #color2 0
+set #color3 0
+set #color4 0
+set #color5 0
+
+
+wait 5000 + random (1000)                 // задержка
+call LСlick #undocX, #undocY        //андок
+wait 10000 + random (1000)                 // задержка
+call LСlick #Button2X, #Button2Y    //вкладка пояса
+set  #Button31Y #Button3Y + ((#nomer -1) *16)            //выбранный пояс астеройдов
+call LСlick #Button3X, #Button31Y    //выбераем пояс астеройдов
+call RСlick #Button3X, #Button31Y    //открываем подменю пояса астеройдов
+set  #Button32X #Button3X + (60 - random (5)) // подмена коорд на варп 0
+set  #Button32Y #Button3Y + (12 - random (3))
+call LСlick #Button32X, #Button32Y    //варп в 0 на выбранный пояс астеройдов
+wait 65000 - random (5000)              // 95 сек ожидание
+
+GOTO TARGET1                         // прицел 1
+
+:TARGET1
+
+
+call RСlick #Button4X, #Button4Y    //открываем подменю дронов
+set  #Button41X #Button4X + (35 - random (5)) // подмена коорд на запуск дронов
+set  #Button41Y #Button4Y + (12 - random (3))
+call LСlick #Button41X, #Button41Y    //запуск дронов
+call LСlick #Button5X, #Button5Y    //открытие вкладки астеройды
+call LСlick #Button6X, #Button6Y    //выбераем астеройд
+call RСlick #Button6X, #Button6Y    //открываем подменю астеройда
+set  #Button61X #Button6X + (60 - random (5)) // подмена коорд на приблизиться
+set  #Button61Y #Button6Y + (12 - random (3))
+call LСlick #Button61X, #Button61Y    //приближаться
+wait 65000 - random (5000)              // 60 сек ожидание
+
+call LСlick #Button6X, #Button6Y    //выбераем астеройд
+wait 1500 + random (50)             // задержка
+call LСlick #Button15X, #Button15Y    //захватываем цель
+wait 500 + random (50)             // задержка
+
+wait 5000 - random (1000)              //5 сек ожидание
+
+call LСlick #Button16X, #Button16Y    //запуск майнеров
+wait 1500 + random (50)
+call LСlick #Button17X, #Button17Y
+wait 500 + random (50)
+
+
+wait 5000 - random (1000)              //10 сек ожидание
+GOTO MINING                           // переход в программу копки
+
+
+
+
+        :MINING
+        set #color1 findcolor (1009, 164 1075, 181 1 1 (6054763) %arr 2 -1 3 workwindow)
+        //get color #color1 1019 178 #HandleWindow
+        if  #color1 > 0
+            wait 20000 - random (5000)
+            GOTO MINING
+
+        else
+            set #color2 findcolor (1009, 164 1075, 181 1 1 (4149328) %arr 2 -1 3 workwindow)
+            if  #color2 = 4149328
+                wait 20000 - random (5000)
+                GOTO MINING
+
+            else
+                call LСlick #Button7X, #Button7Y     //открыть трюм
+                wait 3000 - random (1000)
+                call LСlick #Button8X, #Button8Y     //открыть трюм для руд
+                set #color3 findcolor (728, 124 744, 134 1 1 (6376193) %arr 2 -1 3 workwindow)
+                if #color3 > 1
+                    call LСlick #Button14X, #Button14Y
+                    GOTO FINISH
+                    else
+                    call LСlick #Button14X, #Button14Y
+                    wait 185000 - random (15000)
+                    GOTO TARGET2
+                end_if
+            end_if
+        end_if
+
+        :TARGET2
+        call LСlick #Button5X, #Button5Y    //открытие вкладки астеройды
+        call LСlick #Button6X, #Button6Y    //выбераем астеройд
+        call RСlick #Button6X, #Button6Y    //открываем подменю астеройда
+        set  #Button61X #Button6X + (60 - random (5)) // подмена коорд на приблизиться
+        set  #Button61Y #Button6Y + (12 - random (3))
+        call LСlick #Button61X, #Button61Y    //приближаться
+        wait 20000 - random (5000)              // 15-20 сек ожидание
+        1132, 448
+        call LСlick #Button6X, #Button6Y    //выбераем астеройд
+
+wait 1500 + random (50)             // задержка
+call LСlick #Button15X, #Button15Y    //захватываем цель
+wait 500 + random (50)             // задержка
+wait 5000 - random (1000)              //5 сек ожидание
+call LСlick #Button16X, #Button16Y    //запуск майнеров
+wait 1500 + random (50)
+call LСlick #Button17X, #Button17Y
+wait 500 + random (50)
+                GOTO MINING                           // переход в программу копки
+
+
+
+                :FINISH
+                set  #Button42X #Button4X - (2 - random (5))
+                set  #Button42Y #Button4Y + (40 - random (5))
+                call RСlick #Button42X, #Button42Y
+                set  #Button43X #Button42X + (35 - random (5))
+                set  #Button43Y #Button4Y + (82 - random (5))
+                call LСlick #Button43X, #Button43Y    //убрали дронов
+
+                call LСlick #Button9X, #Button9Y
+
+                call RСlick #Button10X, #Button10Y
+                set  #Button101X #Button10X + (60 - random (5))
+                set  #Button101Y #Button10Y + (12 - random (3))
+                call LСlick #Button101X, #Button101Y    //варп в док
+                wait 60000 + random (5000)
+                call RСlick #Button10X, #Button10Y
+                set  #Button101X #Button10X + (60 - random (5))
+                set  #Button101Y #Button10Y + (33 - random (5))
+                call LСlick #Button101X, #Button101Y    //вход в док
+                wait 5000 + random (5000)
+                call LСlick #Button11X, #Button11Y    //закрытие окна координат
+                wait 3000 + random (1000)
+                call LСlick #Button7X, #Button7Y     //открыть трюм
+                wait 3000 - random (1000)
+                call LСlick #Button8X, #Button8Y     //открыть трюм для руд
+                wait 3000 - random (1000)
+
+                call LСlick #Button12X, #Button12Y                        //выбрать все
+                call RСlick #Button12X, #Button12Y
+                set  #Button121X #Button12X + (60 - random (5))
+                set  #Button121Y #Button12Y + (110 + random (2))
+                call LСlick #Button121X, #Button121Y
+                wait 3000 - random (1000)
+
+                set #Button121X #Button12X + (-2 + random (5))  // рандомизируем координату по X
+                set #Button121Y #Button12Y + (-2 + random (5))  // рандомизируем координату по Y
+                set #Button131X #Button13X + (-2 + random (5))  // рандомизируем координату по X
+                set #Button131Y #Button13Y + (-2 + random (5))  // рандомизируем координату по Y
+                move #Button121X, #Button121Y                    // перемещаем курсор
+                wait 500 + random (50)             // задержка
+                left_down #Button121X, #Button121Y               // зажатие кнопки
+                wait 500 + random (50)                // задержка
+                move #Button131X, #Button131Y                    // перемещаем курсор
+                wait 500 + random (50)
+                left_up #Button131X, #Button131Y                 // отпускание кнопки
+                wait 5000 + random (50)             // задержка
+
+                call LСlick #Button14X, #Button14Y
+                wait 5000 - random (1000)
+                GOTO BEGIN
+
+
+
+
+
+
+                proc Send #B
+                    wait 500 + random (50)             // задержка
+                    sendex_down #B                     // зажатие кнопки
+                    wait 3 + random (2)                // задержка
+                    sendex_up #B                       // отпускание кнопки
+                    wait 500 + random (50)             // задержка
+                end_proc                           // конец процедуры клика клавиатуры
+
+                proc LСlick #LCX #LCY
+                    set #LCX #LCX + (-2 + random (5))  // рандомизируем координату по X
+                    set #LCY #LCY + (-2 + random (5))  // рандомизируем координату по Y
+                    move #LCX, #LCY                    // перемещаем курсор
+                    wait 1000 + random (50)             // задержка
+                    left_down #LCX, #LCY               // зажатие кнопки
+                    wait 3 + random (1)                // задержка
+                    left_up #LCX, #LCY                 // отпускание кнопки
+                    wait 500 + random (50)             // задержка
+                end_proc                           // конец процедуры клика левой кнопкой
+
+                proc RСlick #RCX #RCY
+                    set #RCX #RCX + (-2 + random (5))  // рандомизируем координату по X
+                    set #RCY #RCY + (-2 + random (5))  // рандомизируем координату по Y
+                    move #RCX, #RCY                    // перемещаем курсор
+                    wait 1000 + random (50)             // задержка
+                    right_down #RCX, #RCY               // зажатие кнопки
+                    wait 3 + random (1)                // задержка
+                    right_up #RCX, #RCY                 // отпускание кнопки
+                    wait 500 + random (50)             // задержка
+                end_proc                           // конец процедуры клика правой кнопкой
+
+
+
+
+
+
+
+
+
+
+
+
+
